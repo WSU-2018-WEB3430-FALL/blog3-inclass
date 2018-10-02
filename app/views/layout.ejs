@@ -6,15 +6,11 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p><a href="/posts/new" class="btn btn-primary">Add a new post</a></p>
-    <% if(locals.posts){ %>
-      <% for(let p of posts){ %>
-        <h2><a href="/<%= p.id %>"><%= p.title %></a></h2>
-      <% } %>
-    <% } else if(locals.post) { %>
-      <%- include(post.source) %>
+    
+    <% if(locals.content) { %>
+      <%- include(content) %>
     <% } else { %>
-      <p>No post to display</p>
+      <p>Nothing to display</p>
     <% } %>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

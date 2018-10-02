@@ -1,0 +1,10 @@
+<p><a href="/posts/new" class="btn btn-primary">Add a new post</a></p>
+<% if(locals.posts){ %>
+      <% for(let p of posts){ %>
+        <h2><a href="/<%= p.id %>"><%= p.title %></a></h2>
+      <% } %>
+    <% } else if(locals.post) { %>
+      <%- include(post.source) %>
+    <% } else { %>
+      <p>No post to display</p>
+    <% } %>
