@@ -1,0 +1,21 @@
+    <h1>Add a new post</h1>
+    
+    <form action="/posts/create" method="post">
+      <div class="form-group">
+        <label for="post_title">Title</label>
+        <input type="text" class="form-control" name="title" id="post_title">
+      </div>
+        <div class="form-group">
+        <label for="post_author">Author</label>
+        <input type="text" class="form-control" name="author" id="post_author">
+      </div>
+        <div class="form-group">
+        <label for="post_title">Summary</label>
+        <input type="text" class="form-control" name="summary" id="post_summary">
+      </div>
+      <div class="form-group">
+        <label for="post_body">Body</label>
+        <textarea class="form-control" id="post_body" name="body" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
