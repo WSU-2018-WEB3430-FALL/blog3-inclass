@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 
 /* GET  /posts/new -> new.ejs */
 router.get('/new', function(req, res, next) {
-  res.render('layout', { title: 'My Blog', content: "posts/new" });
+  res.render('layout', { title: 'My Blog', content: "posts/new", errors: {}, post: {}});
 });
 
 
@@ -31,8 +31,12 @@ router.post('/create', function(req, res, next) {
   Object.assign(post, req.body);
 
   new Post(post).save((err) =>{
-      
-      res.redirect(301, "/posts/");
+      if(err){
+        res.render('layout', { title: 'My Blog', content: "posts/new", errors: err.errors, post });
+      }else {
+        req.flash('success', "Post has been created successfully.");
+        res.redirect(301, "/posts/");
+      }
   })
 });
 

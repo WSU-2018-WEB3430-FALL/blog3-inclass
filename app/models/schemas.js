@@ -8,11 +8,11 @@ let commentSchema = new Schema ({
 });
 
 let postSchema = new Schema ({
-    title: String,
-    author: String,
-    summary:String,
+    title: {type: String, required: true, minlength: 20},
+    author: {type: String, required: true},
+    summary:{type: String, required: true},
     posted_at: Date,
-    body: String,
+    body: {type: String, required: true},
     comments: [commentSchema]
 })
 
