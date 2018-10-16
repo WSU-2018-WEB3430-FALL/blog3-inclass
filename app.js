@@ -10,6 +10,9 @@ require("./config/db.js");
 
 var app = express();
 
+// view helpers
+app.locals.formatDate = require("date-fns/format");
+
 // view engine setup
 app.set('views', path.join(__dirname, 'app', 'views'));
 app.set('view engine', 'ejs');

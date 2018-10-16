@@ -9,12 +9,10 @@ router.get('/', function(req, res, next) {
   })
 });
 
-
 /* GET  /posts/new -> new.ejs */
 router.get('/new', function(req, res, next) {
   res.render('layout', { title: 'My Blog', content: "posts/new", errors: {}, post: {}});
 });
-
 
 /* GET /posts/:id -> view.ejs */
 router.get('/:id', function(req, res, next) {
@@ -23,16 +21,11 @@ router.get('/:id', function(req, res, next) {
   })
 });
 
-
 /* GET  /posts/create */
 router.post('/create', function(req, res, next) {
-    
-  let post = { posted_at: new Date()};
-  Object.assign(post, req.body);
-
-  new Post(post).save((err) =>{
+  new Post(req.body).save((err) =>{
       if(err){
-        res.render('layout', { title: 'My Blog', content: "posts/new", errors: err.errors, post });
+        res.render('layout', { title: 'My Blog', content: "posts/new", errors: err.errors, post: req.body });
       }else {
         req.flash('success', "Post has been created successfully.");
         res.redirect(301, "/posts/");
@@ -40,15 +33,12 @@ router.post('/create', function(req, res, next) {
   })
 });
 
-
-
 /* GET  /posts/:id/edit -> edit.ejs */
 router.get('/:id/edit', function(req, res, next) {
   Post.findById(req.params.id, (err, post) => {
       res.render('layout', { title: 'My Blog', content: "posts/edit", post });
   })
 });
-
 
 /* GET  /posts/:id/update */
 router.post('/:id/update', function(req, res, next) {
@@ -60,15 +50,12 @@ router.post('/:id/update', function(req, res, next) {
   });
 });
 
-
 /* post  /posts/:id/delete */
 router.post('/:id/delete', function(req, res, next) {
   Post.findByIdAndRemove(req.params.id, (err) => {
     res.redirect(301, "/posts/");
   });
 });
-
-
 
 router.post("/:id/comments/create", function(req, res, next){
   Post.findById(req.params.id, (err, post) => {
@@ -79,48 +66,13 @@ router.post("/:id/comments/create", function(req, res, next){
   });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//router.get('/new', function(req, res, next) {
-//  Post.find().exec((err, posts) => {
-//      res.render('new', { title: 'My Blog', posts });
-//  })
-//});
-//
-//
-//router.post('/', function(req, res, next) {
-//  let post = {posted_at: new Date()};
-//  Object.assign(post, req.body);
-//    console.log(post);
-//    
-//  new Post(post).save(err => {
-//      res.render('index', { title: 'My Blog'});
-//  });
-//});
-//
-//router.get('/:id', function(req, res, next) {
-//  let post = undefined;
-//  for(let p of posts){
-//    if(p.id == req.params.id){
-//      post = p;
-//      break;
-//    }
-//  }
-//  res.render('index', { title: 'My Blog', post });
-//});
-
+router.post("/:pid/comments/:cid/delete", function(req, res, next){
+  Post.findById(req.params.pid, (err, post) => {
+    post.comments.id(req.params.cid).remove();
+    post.save((err) =>{
+      res.redirect(301, "/posts/" + post.id);
+    });
+  });
+});
 
 module.exports = router;
